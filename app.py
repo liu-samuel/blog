@@ -29,11 +29,11 @@ all_posts = [
     }
 ]
 
-@app.route('https://liu-samuel.github.io/blog/')
+@app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('https://liu-samuel.github.io/blog/posts', methods=['GET', 'POST'])
+@app.route('/posts', methods=['GET', 'POST'])
 def posts():
     if request.method == 'POST':
         post_title = request.form['title']
@@ -47,14 +47,14 @@ def posts():
         all_posts = BlogPost.query.order_by(BlogPost.date_posted).all()
         return render_template('posts.html', posts=all_posts)
 
-@app.route('https://liu-samuel.github.io/blog/posts/delete/<int:id>')
+@app.route('/posts/delete/<int:id>')
 def delete(id):
     post = BlogPost.query.get_or_404(id)
     db.session.delete(post)
     db.session.commit()
     return redirect('/posts')
 
-@app.route('https://liu-samuel.github.io/blog/posts/edit/<int:id>', methods=['GET', 'POST'])
+@app.route('/posts/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
 
     post = BlogPost.query.get_or_404(id)
@@ -67,7 +67,7 @@ def edit(id):
     else:
         return render_template('edit.html', post=post)
 
-@app.route('https://liu-samuel.github.io/blog/posts/new', methods=['GET', 'POST'])
+@app.route('/posts/new', methods=['GET', 'POST'])
 def new_post():
     if request.method == 'POST':
         post_title = request.form['title']
